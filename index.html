@@ -1,158 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Đặt mã hóa ký tự là UTF-8 để hỗ trợ các ký tự đặc biệt -->
     <meta charset="UTF-8">
+    
+    <!-- Điều chỉnh tỷ lệ hiển thị trang web trên các thiết bị di động -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>© FB: Win Win ( Haza )</title>
+    
+    <!-- Tiêu đề của trang web sẽ hiển thị trên tab trình duyệt -->
+    <title>Win Rate Calculator</title>
+    
+    <!-- Liên kết đến biểu tượng trang (favicon) hiển thị trên tab của trình duyệt -->
+    <link rel="icon" href="   https://cdn-icons-png.flaticon.com/512/10179/10179972.png " type="image/png" sizes="32x32">
+    
     <style>
+        /* Định dạng CSS cho trang web */
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #000;
-            color: #fff;
-            padding: 20px;
+            background-color: #000; /* Màu nền trang web */
+            color: #fff; /* Màu chữ trắng */
+            padding: 20px; /* Khoảng cách lề của trang */
+            font-size: 18px; /* Tăng cỡ chữ lên */
         }
+
         .container {
             max-width: 600px;
             margin: 0 auto;
-            background: #1c1c1c;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+            background: #1c1c1c; /* Nền hộp chứa các phần tử */
+            padding: 20px; /* Khoảng cách xung quanh trong hộp */
+            border-radius: 10px; /* Bo góc hộp */
+            box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1); /* Tạo hiệu ứng bóng cho hộp */
         }
+
         input, select {
-            width: calc(100% - 20px);
-            padding: 15px;
-            margin: 10px 0;
-            border: 1px solid #fff;
-            border-radius: 5px;
-            background-color: #000;
-            color: #fff;
-            font-size: 16px;
-            font-weight: bold;
+            width: calc(100% - 20px); /* Đảm bảo các input và select chiếm 100% chiều rộng */
+            padding: 15px; /* Khoảng cách trong của input và select */
+            margin: 10px 0; /* Khoảng cách giữa các input/select */
+            border: 1px solid #fff; /* Viền của input/select */
+            border-radius: 5px; /* Bo góc của input/select */
+            background-color: #000; /* Màu nền input/select */
+            color: #fff; /* Màu chữ trong input/select */
+            font-size: 18px; /* Tăng cỡ chữ */
+            font-weight: bold; /* Đậm chữ */
         }
+
         input::placeholder {
-            color: #bbb;
+            color: #bbb; /* Màu chữ cho placeholder (văn bản hướng dẫn) */
         }
+
         button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 15px 20px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 5px;
-            margin: 10px 5px;
+            background-color: #007bff; /* Màu nền của nút */
+            color: #fff; /* Màu chữ nút */
+            border: none; /* Không có viền */
+            padding: 15px 20px; /* Khoảng cách trong nút */
+            font-size: 20px; /* Tăng cỡ chữ */
+            font-weight: bold; /* Đậm chữ nút */
+            cursor: pointer; /* Con trỏ chuột chuyển thành dạng tay khi di chuột lên nút */
+            border-radius: 5px; /* Bo góc nút */
+            margin: 10px 5px; /* Khoảng cách giữa các nút */
         }
+
         button:hover {
-            background-color: #0056b3;
+            background-color: #0056b3; /* Thay đổi màu khi di chuột lên nút */
         }
+
         .result {
-            margin-top: 20px;
-            font-size: 20px;
-            font-weight: bold;
-            color: #fff;
+            margin-top: 20px; /* Khoảng cách phía trên kết quả */
+            font-size: 18px; /* Tăng cỡ chữ */
+            font-weight: bold; /* Đậm chữ */
+            color: #fff; /* Màu chữ kết quả */
+        }
+
+        footer span {   
+            color: #808080; /* Màu chữ trong footer */
+            font-size: 14px; /* Cỡ chữ của phần "© WinRate Được Tạo Ra bởi :" */
+        }
+
+        footer a {                                  
+            color: #fff; /* Màu chữ của liên kết trong footer */
+            font-size: 14px; /* Cỡ chữ của phần "LVT ( WinWin )" */
+            font-weight: bold; /* Đậm chữ liên kết */
+            text-decoration: none; /* Không gạch chân */
+            transition: all 0.3s ease; /* Hiệu ứng chuyển đổi mượt mà khi di chuột */
+        }
+
+        footer a:hover {
+            color: #800080; /* Màu chữ khi di chuột lên liên kết */
+        }
+        /* Tooltip */
+        .tooltip {
+            position: relative;  /* Định vị tooltip */
+            display: inline-block;  /* Hiển thị icon */
+            cursor: pointer;  /* Con trỏ thay đổi khi hover */
+        }
+
+        /* Định dạng tooltip khi ẩn */
+        .tooltip .tooltiptext {
+            visibility: hidden;  /* Ẩn tooltip mặc định */
+            width: 220px;  /* Độ rộng của tooltip */
+            background-color: #333;  /* Màu nền của tooltip */
+            color: #fff;  /* Màu chữ trong tooltip */
+            text-align: center;  /* Căn giữa nội dung tooltip */
+            border-radius: 5px;  /* Bo góc tooltip */
+            padding: 10px;  /* Khoảng cách xung quanh nội dung tooltip */
+            position: absolute;  /* Định vị tuyệt đối tooltip */
+            z-index: 1;  /* Đảm bảo tooltip hiển thị trên các phần tử khác */
+            bottom: 125%;  /* Đặt tooltip lên trên icon */
+            left: 50%;  /* Đặt tooltip căn giữa */
+            margin-left: -110px;  /* Để căn giữa chính xác */
+            opacity: 0;  /* Ẩn tooltip khi không hover */
+            transition: opacity 0.3s;  /* Hiệu ứng mờ dần khi hiển thị tooltip */
+        }
+
+        /* Hiển thị tooltip khi hover */
+        .tooltip:hover .tooltiptext {
+            visibility: visible;  /* Hiển thị tooltip */
+            opacity: 1;  /* Đặt độ mờ về 1 khi hiển thị */
         }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <h1>RATE AOV</h1>
+        <!-- Khối chính chứa các phần tử cần thiết -->
+        
+        <h1>RATE AOV</h1>   <!-- Tiêu đề chính -->
+        
         <form id="winRateForm">
+            <!-- Biểu mẫu nhập liệu -->
+            
+            <!-- Nhập tổng số trận đấu (Yêu cầu nhập dữ liệu) -->
             <input type="number" id="totalGames" placeholder="Tổng số trận đấu ⚔️" required>
+            
+            <!-- Nhập tỷ lệ thắng hiện tại (Yêu cầu nhập dữ liệu) -->
             <input type="number" id="currentRate" placeholder="Tỉ Lệ Thắng Hiện Tại (%)" required>
+            
+            <!-- Lựa chọn chế độ tính toán -->
             <select id="mode" onchange="toggleInputs()">
+                
+                <!-- Tính số trận cần thiết để đạt tỷ lệ thắng mong muốn -->
                 <option value="rate">Tính Số Trận Để Đạt Tỉ Lệ (%)</option>
+                
+                <!-- Tính tỷ lệ thắng khi có số trận thắng/thua nhất định -->
                 <option value="games">Tính Tỉ Lệ Khi Đạt Số Trận Wins / Losses ⚔️</option>
+                
             </select>
+            
+            <!-- Input cho trường hợp tính số trận cần thắng để đạt tỷ lệ -->
             <div id="rateInput" style="display: block;">
                 <input type="number" id="desiredRate" placeholder="Tỉ Lệ Thắng Mong Muốn (%)">
             </div>
+            
+            <!-- Input cho trường hợp tính tỷ lệ khi có số trận thắng/thua -->
             <div id="gamesInput" style="display: none;">
                 <input type="number" id="futureGames" placeholder="Nhập Số Trận Chiến Sắp Tới ⚔️">
                 <select id="gameType">
+                    <!-- Lựa chọn trận thắng -->
                     <option value="win">WINS</option>
+                    <!-- Lựa chọn trận thua -->
                     <option value="lose">LOSSES</option>
                 </select>
             </div>
+            
+            <!-- Nút tính kết quả -->
             <button type="button" onclick="calculate()">Tính Kết Quả</button>
+            
         </form>
+        
+        <!-- Hiển thị kết quả tính toán -->
         <div class="result" id="result"></div>
+        
     </div>
+
+    
+    <footer>    <!-- Footer hiển thị thông tin tác giả và liên kết BẢN QUYỀN -->
+        <span><img src="  https://cdn-icons-png.flaticon.com/128/1294/1294340.png " width="11" height="11" alt="" title="" class="img-small"> WinRate ❤️ Được Tạo Ra bởi :</span>
+        <a href="https://www.facebook.com/WinSub1/" target="_blank">
+            LVT ( WinWin ) 
+            <!-- Tick xanh thương hiệu -->
+            <div class="tooltip">
+                <img src="https://cdn-icons-png.flaticon.com/512/6270/6270448.png" width="18" height="18" alt="Icon">
+                <span class="tooltiptext">Đường dẫn đã được xác minh là web chính thức của công ty hoặc thương hiệu này</span>
+            </div>
+        </a> 
+    </footer>
+    
+    
+    <style>
+        footer a {
+            font-size: 14px; /* Đặt kích thước chữ cho liên kết */
+            font-weight: bold; /* Đậm chữ */
+            display: inline-flex;
+            align-items: center; /* Căn giữa hình ảnh và văn bản theo chiều dọc */
+            gap: 5px; /* Khoảng cách giữa văn bản và icon */
+        }
+    
+        footer a img {
+            width: 18px; /* Đảm bảo kích thước icon */
+            height: 18px; /* Đảm bảo kích thước icon */
+            vertical-align: middle; /* Căn chỉnh icon với văn bản */
+        }
+    </style>
+    
+
     <script>
+        // Hàm này sẽ thay đổi hiển thị các input dựa trên chế độ lựa chọn
         function toggleInputs() {
             const mode = document.getElementById('mode').value;
+            // Nếu chế độ "rate" được chọn, hiển thị input để nhập tỷ lệ mong muốn
             document.getElementById('rateInput').style.display = mode === 'rate' ? 'block' : 'none';
+            // Nếu chế độ "games" được chọn, hiển thị input để nhập số trận và chọn loại trận (win/lose)
             document.getElementById('gamesInput').style.display = mode === 'games' ? 'block' : 'none';
         }
 
         function calculate() {
-            const totalGames = parseInt(document.getElementById('totalGames').value);
-            const currentRate = parseFloat(document.getElementById('currentRate').value);
-            const mode = document.getElementById('mode').value;
-            const resultElement = document.getElementById('result');
+            // Hàm tính toán kết quả dựa trên dữ liệu nhập vào
+            const totalGames = parseInt(document.getElementById('totalGames').value); // Tổng số trận đấu
+            const currentRate = parseFloat(document.getElementById('currentRate').value); // Tỷ lệ thắng hiện tại
+            const mode = document.getElementById('mode').value; // Chế độ tính toán
+            const resultElement = document.getElementById('result'); // Khu vực hiển thị kết quả
 
-            if (isNaN(totalGames) || isNaN(currentRate) || totalGames <= 0 || currentRate < 0 || currentRate > 100) {
+            // Kiểm tra tính hợp lệ của dữ liệu nhập vào
+            if (isNaN(totalGames) || totalGames <= 0 || isNaN(currentRate) || currentRate < 0 || currentRate > 100) {
                 resultElement.textContent = "Vui lòng nhập số liệu hợp lệ🗿.";
                 return;
             }
 
-            const currentWins = Math.round((currentRate / 100) * totalGames);
+            const currentWins = Math.round((currentRate / 100) * totalGames); // Tính số trận thắng hiện tại
 
             if (mode === 'rate') {
-                const desiredRate = parseFloat(document.getElementById('desiredRate').value);
+                // Chế độ tính số trận cần để đạt tỷ lệ mong muốn
+                const desiredRate = parseFloat(document.getElementById('desiredRate').value); // Tỷ lệ mong muốn
                 if (isNaN(desiredRate) || desiredRate < 0 || desiredRate > 100) {
-                    resultElement.textContent = "Vui lòng nhập tỉ lệ thắng mong muốn hợp lệ🗿.";
+                    resultElement.textContent = "Vui lòng nhập tỉ lệ mong muốn hợp lệ🗿.";
                     return;
                 }
 
                 if (desiredRate < currentRate) {
-                    // Tính số trận thua cần thiết để giảm tỷ lệ thắng
-                    const lossesNeeded = Math.ceil((currentWins / (desiredRate / 100)) - totalGames);
+                    const lossesNeeded = Math.ceil((currentWins / (desiredRate / 100)) - totalGames); // Tính số trận cần thua
                     if (lossesNeeded > 1000000) {
-                        resultElement.textContent = "Hơn 1M trận rồi đấy🗿‼️";
+                        resultElement.textContent = "Bạn cần đạt ∞🗿 trận để đạt tỉ lệ này.";
                     } else {
-                        resultElement.textContent = `Để giảm tỉ lệ thắng xuống ${desiredRate}%, bạn cần thua ${lossesNeeded} trận.`;
+                        resultElement.textContent = lossesNeeded > 0
+                        ? `Bạn cần thua thêm ${lossesNeeded} trận để đạt ${desiredRate}%.`
+                        : "Tỉ lệ mong muốn đã đạt được hoặc không cần thua thêm.";
                     }
-
                 } else if (desiredRate > currentRate) {
-                    // Tính số trận thắng cần thiết để đạt tỷ lệ thắng
-                    const gamesNeeded = Math.ceil((desiredRate * (totalGames + 1) - currentWins * 100) / (100 - desiredRate));
+                    const gamesNeeded = Math.ceil((desiredRate * totalGames - currentWins * 100) / (100 - desiredRate)); // Tính số trận cần thắng
                     if (gamesNeeded > 1000000) {
-                        resultElement.textContent = "Hơn 1M trận rồi đấy🗿‼️";
+                        resultElement.textContent = "Bạn cần đạt ∞🗿 trận để đạt tỉ lệ này.";
                     } else {
-                        resultElement.textContent = `Để đạt tỉ lệ thắng ${desiredRate}%, bạn cần thắng thêm ${gamesNeeded} trận.`;
+                        resultElement.textContent = gamesNeeded > 0
+                        ? `Bạn cần thắng thêm ${gamesNeeded} trận để đạt ${desiredRate}%.`
+                        : "Tỉ lệ mong muốn đã đạt được hoặc không cần thắng thêm.";
                     }
-
                 } else {
                     resultElement.textContent = `Bạn đã đạt tỉ lệ mong muốn😉 ${desiredRate}%.`;
                 }
-
             } else if (mode === 'games') {
-                const futureGames = parseInt(document.getElementById('futureGames').value);
-                const gameType = document.getElementById('gameType').value;
+                // Chế độ tính tỷ lệ khi đạt số trận thắng/thua
+                const futureGames = parseInt(document.getElementById('futureGames').value); // Số trận chiến sắp tới
+                const gameType = document.getElementById('gameType').value; // Loại trận thắng/thua
 
                 if (isNaN(futureGames) || futureGames <= 0) {
                     resultElement.textContent = "Vui lòng nhập số trận hợp lệ🗿.";
                     return;
                 }
 
-                const newTotalGames = totalGames + futureGames;
-                const newWins = gameType === 'win' ? currentWins + futureGames : currentWins;
-                const newRate = (newWins / newTotalGames) * 100;
+                const newTotalGames = totalGames + futureGames; // Tổng số trận sau khi có thêm trận mới
+                const newWins = gameType === 'win' ? currentWins + futureGames : currentWins; // Cập nhật số trận thắng
+                const newRate = (newWins / newTotalGames) * 100; // Tính tỷ lệ thắng mới
 
-                if (newTotalGames > 10000000000000000000000) {
-                    resultElement.textContent = "Hơn 1M trận rồi đấy🗿‼️";
-                } else {
-                    resultElement.textContent = `Sau ${futureGames} trận ${gameType === 'win' ? 'Thắng' : 'Thua'}, tỉ lệ thắng sẽ là ${newRate.toFixed(2)}%.`;
-                }
+                resultElement.textContent = `Sau ${futureGames} trận ${gameType === 'win' ? 'Thắng' : 'Thua'}, tỉ lệ thắng sẽ là ${newRate.toFixed(2)}%.`;
             }
         }
     </script>
 </body>
-... <!-- Nội dung trước đó của trang -->
-<footer><span style="color: #2bff00;">© WinRate Được Tạo Ra bởi :</span> <a href="https://www.facebook.com/WinSub1/" target="_blank" style="color: #2bff00; font-weight: bold; font-size: 20px; text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.textShadow='0 0 5px #2bff00, 0 0 10px #2bff00, 0 0 15px #2bff00, 0 0 20px #FF0000, 0 0 30px #FF0000, 0 0 40px #FF0000, 0 0 50px #FF00006347'; this.style.color='#FF0000';" onmouseout="this.style.textShadow=''; this.style.color='#2bff00';">LVT ( WinWin )</a></footer>
-</body>
-
 </html>
